@@ -141,6 +141,12 @@ Still, this would be a more robust defense for users and developers. We're addin
 see what the impact of this kind of approach might look like if we take more things into account (HSTS with
 `includeSubdomains` and a sufficiently long lifetime obviates the needs for the `Secure` attribute, for example).
 
+### Doesn't this make users type passwords more often? Isn't that bad?
+
+That would be bad. We should actively discourage folks from typing passwords into non-secure pages. Browsers are
+moving on this already by labeling sites as "Not Secure" in various ways when they contain password forms. I
+expect that trend to continue.
+
 ## Open Questions
 
 1.  **All or nothing**? Is it better to treat a request's cookies as a monolithic set by deleting _all_ of
