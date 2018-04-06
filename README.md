@@ -14,7 +14,7 @@ via cookies sent over non-secure connections.
 
 TL;DR: Expire cookies early rather than sending them over non-secure connections.
 
-When building the `Cookie` header for an outgoing request to an non-secure URL, let's first check each cookies'
+When building the `Cookie` header for an outgoing request to a non-secure URL, let's first check each cookies'
 creation date. If that date is older than some arbitrary cutoff (let's start with twelve months), let's not add the
 cookie to the outgoing `Cookie` header. Instead, let's delete the cookie. Over time, that cutoff could be reduced to
 something suitably small (say, a few days).
@@ -144,7 +144,7 @@ see what the impact of this kind of approach might look like if we take more thi
 ## Open Questions
 
 1.  **All or nothing**? Is it better to treat a request's cookies as a monolithic set by deleting _all_ of
-    them if _any_ cookie is expired due to age? That is, in the 2017-09-01 example above, should
+    them if _any_ cookie is expired due to age? That is, in the 2018-04-02 example above, should
     `http://A.com` receive no cookies at all?
      
     This is fairly draconian, but could be justified by noting that browsers don't understand cookies'
@@ -154,7 +154,7 @@ see what the impact of this kind of approach might look like if we take more thi
 
     Counterpoints in favor of the current proposal include:
     
-    1.  A server shouldn't be punished for old cookies it's forgotten about and isn't using
+    1.  A server shouldn't be punished for old cookies it's forgotten about and isn't using.
     2.  Cookies are fragile today, and older cookies will be expired first regardless.
 
 2.  **Should we delete cookies? Or simply hide them?** A variant of this proposal would not remove the cookies
