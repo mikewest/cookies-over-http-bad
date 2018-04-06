@@ -19,7 +19,7 @@ creation date. If that date is older than some arbitrary cutoff (let's start wit
 cookie to the outgoing `Cookie` header. Instead, let's delete the cookie. Over time, that cutoff could be reduced to
 something suitably small (say, a few days).
 
-Let's also slightly modify the creation-time algorithm in [step 11.3 of section 5.3 of RFC6265][3] by persisting
+Let's also slightly modify the creation-time algorithm in [step 11.3 of section 5.3 of RFC6265bis][3] by persisting
 the creation time only for cookies whose value doesn't change (which turns out to be a no-op for Chrome, as that's
 its current behavior).
 
