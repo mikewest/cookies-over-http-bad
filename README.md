@@ -106,10 +106,10 @@ non-secure endpoint. As of March, 2018, the percentile buckets break down as fol
 | 99% | 701-789 | 701-789 |
 
 Squinting a bit, it seems reasonable to start at somewhere around a year, which falls into a bucket that would have
-a one-time effect on . That would have a one-time effect on ~6.12% of same-site requests, and ~7.3% of cross-site
-requests. It's a compromise between a short-enough lifetime to have a real impact on pervasive monitoring and non-secure
-tracking in general, while at the same time not breaking things like SSO on an ongoing basis (being forced to
-reauthenticate once a year doesn't seem like a massive burden).
+a one-time effect on ~6.12% of same-site requests, and ~7.3% of cross-site requests. It's a compromise between a
+short-enough lifetime to have a real impact on pervasive monitoring and non-secure tracking in general, while at the
+same time not breaking things like SSO on an ongoing basis (being forced to reauthenticate once a year doesn't seem
+like a massive burden).
 
 ### Why base this on creation date rather than limiting expiration?
 
