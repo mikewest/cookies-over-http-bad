@@ -182,6 +182,10 @@ expect that trend to continue.
     meant that users who had opted out of interest-based advertising started being targeted again. Perhaps
     excluding the special value `OPT_OUT` (and asking advertisers to standardize on it?) is justifiable.
 
+## Feedback?
+
+[Blink's "Intent to Deprecate: Nonsecurely delivered cookies." thread][8] is a good place to start.
+
 [1]: https://tools.ietf.org/html/rfc7258
 [2]: https://www.eff.org/deeplinks/2013/12/nsa-turns-cookies-and-more-surveillance-beacons
 [3]: https://tools.ietf.org/html/draft-ietf-httpbis-rfc6265bis#section-5.3
@@ -189,3 +193,4 @@ expect that trend to continue.
 [5]: https://tools.ietf.org/html/draft-thomson-http-omnomnom-00
 [6]: https://bugzilla.mozilla.org/show_bug.cgi?id=1160368
 [7]: https://transparencyreport.google.com/https/overview
+[8]: https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/r0UBdUAyrLk
