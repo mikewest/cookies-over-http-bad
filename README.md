@@ -7,28 +7,27 @@ data to network attackers (passive or active). We know, for example, that long-l
 [pervasive monitoring][1] in the past (see [Google's PREF cookie][2]), and we know that HTTPS provides significant
 confidentiality protections against this kind of attack.
 
-It would be good to encourage developers to stop creating these monitoring opportunities (and to remove themselves as
-a mixed content barrier to other sites) by migrating to HTTPS.
+Ideally, browsers would mitigate these monitoring opportunities by making it more difficult to persistently track users
+via cookies sent over non-secure connections.
 
 ## A Proposal
 
 TL;DR: Expire cookies early rather than sending them over non-secure connections.
 
-When building the `Cookie` header for an outgoing request to an non-secure URL, we'll first check each cookies'
-creation date. If that date is older than some arbitrary cutoff (let's start with twelve months), we won't add the
-cookie to the outgoing `Cookie` header. Instead, we'll delete the cookie. Over time, we'll reduce the cutoff to
-something suitably small (say, zero months).
+When building the `Cookie` header for an outgoing request to an non-secure URL, let's first check each cookies'
+creation date. If that date is older than some arbitrary cutoff (let's start with twelve months), let's not add the
+cookie to the outgoing `Cookie` header. Instead, let's delete the cookie. Over time, that cutoff could be reduced to
+something suitably small (say, a few days).
 
-We'll also slightly modify the creation-time algorithm in [step 11.3 of section 5.3 of RFC6265][3] by persisting
+Let's also slightly modify the creation-time algorithm in [step 11.3 of section 5.3 of RFC6265][3] by persisting
 the creation time only for cookies whose value doesn't change (which turns out to be a no-op for Chrome, as that's
 its current behavior).
 
 That's it.
 
 _Note that this proposal does not aim to prevent third-party tracking, except insofar as that tracking is done over
-non-secure connections. It aims to set HTTPS as the minimum bar for third-party tracking capabilities (which,
-hopefully we'd all agree are "powerful") in the hopes of ensuring that the third-party in question is the only one
-with whom you're conversing._
+non-secure connections. It aims to set HTTPS as the minimum bar for state on the web (which, hopefully, we'd all
+agree is "powerful")._
 
 ### Hrm. Spell this out a bit?
 
