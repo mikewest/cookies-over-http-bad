@@ -30,6 +30,33 @@ non-secure connections. It aims to set HTTPS as the minimum bar for third-party 
 hopefully we'd all agree are "powerful") in the hopes of ensuring that the third-party in question is the only one
 with whom you're conversing._
 
+### Hrm. Spell this out a bit?
+
+Sure thing. Let's say that `http://A.com` embeds `http://B.com`, and their respective cookie jars look something like
+the following:
+
+| A.com ||
+|-------|-|
+| Name  | Created |
+| cookie1 | 2017-04-01 |
+| cookie2 | 2018-01-01 |
+
+| B.com ||
+|-------|-|
+| Name  | Created |
+| cookie3 | 2017-04-01 |
+| cookie4 | 2018-01-01 |
+
+
+On 2018-03-01, the user loads `http://A.com` as a top-level document. All of its cookies are less than a year old,
+so they're all sent in the `Cookie` header. It embeds `http://B.com`. All of its cookies are likewise less than a
+year old, so they're included in the `Cookie` header as usual.
+
+On 2018-04-02, the user loads `http://A.com` again. `cookie1` is now older than a year, while `cookie2` is younger.
+The request's `Cookie` header contains `cookie2=value`, and Chrome deletes `cookie1`. It embeds `http://B.com`.
+Since `cookie3` is now more than a year old, Chrome deletes that cookies, and sends `cookie4=value` in the `Cookie`
+header.
+
 ## FAQ
 
 ### Won't this break things?
