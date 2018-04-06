@@ -92,23 +92,24 @@ if possible).
 
 ### What's a reasonable cutoff point to start with?
 
-Chrome's added metrics to measure the age of the oldest cookie in each first-/third-party request sent to a
+Chrome's added metrics to measure the age of the oldest cookie in each same-site/cross-site request sent to a
 non-secure endpoint. As of March, 2018, the percentile buckets break down as follows (ages in ~days):
 
-| | First-Party | Third-Party |
+| | Same-Site | Cross-Site |
 |-|-------------|-------------|
 | 20% | 0-1 | 2-3 |
-| 40% | 3-4 | 33-37 |
-| 60% | 37-42 | 75-84 |
-| 80% | 120-135 | 171-192 |
+| 40% | 2-3 | 37-42 |
+| 60% | 37-42 | 95-107 |
+| 80% | 120-135 | 192-216 |
+| 90% | 273-307 | 307-345 |
 | 95% | 437-492 | 437-492 |
 | 99% | 701-789 | 701-789 |
 
-Squinting a bit, it seems reasonable to start at somewhere around a year. That would have a one-time effect on
-~7% of cross-site requests, and ~6% of same-site requests. It's a compromise between a short-enough lifetime to
-have a real impact on pervasive monitoring and tracking in general, while at the same time not actually breaking
-things like SSO on an ongoing basis (being forced to reauthenticate once a year doesn't seem like a massive
-burden).
+Squinting a bit, it seems reasonable to start at somewhere around a year, which falls into a bucket that would have
+a one-time effect on . That would have a one-time effect on ~6.12% of same-site requests, and ~7.3% of cross-site
+requests. It's a compromise between a short-enough lifetime to have a real impact on pervasive monitoring and non-secure
+tracking in general, while at the same time not breaking things like SSO on an ongoing basis (being forced to
+reauthenticate once a year doesn't seem like a massive burden).
 
 ### Why base this on creation date rather than limiting expiration?
 
