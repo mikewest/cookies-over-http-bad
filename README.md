@@ -25,9 +25,8 @@ its current behavior).
 
 That's it.
 
-_Note that this proposal does not aim to prevent third-party tracking, except insofar as that tracking is done over
-non-secure connections. It aims to set HTTPS as the minimum bar for state on the web (which, hopefully, we'd all
-agree is "powerful")._
+_Note that this proposal does not aim to prevent third-party tracking. It aims to set HTTPS as the minimum bar for
+state on the web (which, hopefully, we'd all agree is "powerful")._
 
 ### Hrm. Spell this out a bit?
 
@@ -139,7 +138,7 @@ we'd end up affecting significantly more requests.
 
 Still, this would be a more robust defense for users and developers. We're adding more metrics to Chrome to
 see what the impact of this kind of approach might look like if we take more things into account (HSTS with
-`includeSubdomains` obviates the needs for the `Secure` attribute, for example).
+`includeSubdomains` and a sufficiently long lifetime obviates the needs for the `Secure` attribute, for example).
 
 ## Open Questions
 
