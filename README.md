@@ -20,8 +20,12 @@ cookie to the outgoing `Cookie` header. Instead, let's delete the cookie. Over t
 something suitably small (say, a few days).
 
 Let's also slightly modify the creation-time algorithm in [step 17.3 of section 5.4 of RFC6265bis][3] by persisting
-the creation time only for cookies whose value doesn't change (which turns out to be a no-op for Chrome, as that's
-its current behavior).
+the creation time only for cookies whose value doesn't change:
+
+```
+3.  If the old-cookie's value is the same as the newly-created cookie's value, then update the
+    creation-time of the newly-created cookie to match the creation-time of the old-cookie.
+```
 
 That's it.
 
@@ -51,8 +55,8 @@ so they're all sent in the `Cookie` header. It embeds `http://B.com`. All of its
 year old, so they're included in the `Cookie` header as usual.
 
 On 2018-04-02, the user loads `http://A.com` again. `cookie1` is now older than a year, while `cookie2` is younger.
-The request's `Cookie` header contains `cookie2=value`, and Chrome deletes `cookie1`. It embeds `http://B.com`.
-Since `cookie3` is now more than a year old, Chrome deletes that cookies, and sends `cookie4=value` in the `Cookie`
+The request's `Cookie` header contains `cookie2=value`, and the browser deletes `cookie1`. It embeds `http://B.com`.
+Since `cookie3` is now more than a year old, the browser deletes that cookies, and sends `cookie4=value` in the `Cookie`
 header.
 
 ## FAQ
@@ -80,9 +84,9 @@ Developers responsible for affected services have a few options:
 4.  They could trivially modify the cookie value as a perversion of the approach in #2 above. That is,
     `Set-Cookie: name=[value]-1`, followed by `Set-Cookie: name=[value]-2`, followed by
     `Set-Cookie: name=[value]-3`, and so on. If this is the route developers choose, browsers would be well-served
-    to consider countermeasures. Given past experience, this doesn't seem likely: for example, only a very small
-    number of sites switched away from `<input type="password">` when Chrome started showing the "Not Secure" chip
-    for password fields on non-secure pages.
+    to consider countermeasures. Given past deprecation experience, this doesn't seem likely: for example, only a
+    very small number of sites switched away from `<input type="password">` to something more esoteric when
+    browsers started showing the "Not Secure" chip for password fields on non-secure pages.
 
 The most worrisome group for unintentional breakage are Enterprisey intranet single-sign on servers. This doesn't
 seem terribly concerning, because it seems useful to encourage even enterprises to migrate to HTTPS for critical
@@ -92,8 +96,9 @@ if possible).
 
 ### What's a reasonable cutoff point to start with?
 
-Chrome's added metrics to measure the age of the oldest cookie in each same-site/cross-site request sent to a
-non-secure endpoint. As of March, 2018, the percentile buckets break down as follows (ages in ~days):
+An excellent question, which I think we'll need to answer with data. Chrome has collected metrics to measure the
+age of the oldest cookie in each same-site/cross-site request sent to a non-secure endpoint. As of March, 2018,
+the percentile buckets break down as follows (ages in ~days):
 
 | | Same-Site | Cross-Site |
 |-|-------------|-------------|
@@ -115,8 +120,8 @@ like a massive burden).
 
 We could limit the expiration time for cookies set over HTTP (that's what Martin Thompson's ahead-of-its-time
 [omnomnom][5] proposal suggests). We'd have a hard time doing the same for cookies set over HTTPS, however, and
-those cookies can also be sent over HTTP if they lack the `Secure` attribute. [Mozilla's research on the topic][6]
-(and Chrome's data) suggests that that happens far too often to be easily adjustable.
+those cookies can also be sent over HTTP if they lack the `Secure` attribute. [Mozilla's research on the topic][6] as
+well as Chrome's data on cookie types suggests that that happens far too often to be easily adjustable.
 
 The approach proposed in this doc allows a request-time decision which targets only those cookies which would
 actually be sent over HTTP, which seems like a net that's just wide enough to catch the cookies we care about,
@@ -137,9 +142,9 @@ attribute according to Chrome's data. Since we'd be expiring cookies regardless 
 since [something like 70% of users' navigations are to secure pages][7] that the current proposal excludes,
 we'd end up affecting significantly more requests.
 
-Still, this would be a more robust defense for users and developers. We're adding more metrics to Chrome to
-see what the impact of this kind of approach might look like if we take more things into account (HSTS with
-`includeSubdomains` and a sufficiently long lifetime obviates the needs for the `Secure` attribute, for example).
+Still, this would be a more robust defense for users and developers. Browsers would be well-served to add more
+metrics to see what the impact of this kind of approach might look like if we take more things into account (HSTS
+with `includeSubdomains` and a sufficiently long lifetime obviates the needs for the `Secure` attribute, for example).
 
 ### Doesn't this make users type passwords more often? Isn't that bad?
 
