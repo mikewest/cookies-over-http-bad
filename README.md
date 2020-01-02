@@ -97,21 +97,23 @@ if possible).
 ### What's a reasonable cutoff point to start with?
 
 An excellent question, which I think we'll need to answer with data. Chrome has collected metrics to measure the
-age of the oldest cookie in each same-site/cross-site request sent to a non-secure endpoint. As of March, 2018,
-the percentile buckets break down as follows (ages in ~days):
+age of the oldest cookie in each same-site/cross-site request sent to a non-secure endpoint. As of December 2019,
+the percentile buckets break down as follows (average ages in ~days):
 
-| | Same-Site | Cross-Site |
-|-|-------------|-------------|
-| 20% | 0-1 | 2-3 |
-| 40% | 2-3 | 37-42 |
-| 60% | 37-42 | 95-107 |
-| 80% | 120-135 | 192-216 |
-| 90% | 273-307 | 307-345 |
-| 95% | 437-492 | 437-492 |
-| 99% | 701-789 | 701-789 |
+|       | Same-Site | Cross-Site |
+|-------|-----------|------------|
+| 25%   | 0.7   | 5.2 |
+| 50%   | 10.4  | 58  |
+| 75%   | 93.9  | 207.4 |
+| 95%   | 464.9 | 609.1 |
+| 96%   | 522.1 | 661.9 |
+| 97%   | 588.6 | 714.5 |
+| 98%   | 677.1 | 754.5 |
+| 99%   | 761.8 | 823.2 |
+| 99.5% | 848.9 | 956.2 |
 
-Squinting a bit, it seems reasonable to start at somewhere around a year, which falls into a bucket that would have
-a one-time effect on ~6.12% of same-site requests, and ~7.3% of cross-site requests. It's a compromise between a
+Squinting a bit, it seems reasonable to start at somewhere around two years, which falls into a bucket that would have
+a one-time effect on ~2% of same-site requests, and ~3% of cross-site requests. It's a compromise between a
 short-enough lifetime to have a real impact on pervasive monitoring and non-secure tracking in general, while at the
 same time not breaking things like SSO on an ongoing basis (being forced to reauthenticate once a year doesn't seem
 like a massive burden).
